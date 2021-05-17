@@ -53,7 +53,7 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
             string sql = $@"
 select
 (select top 1 {nameof(Facility.SiteCode)} from {nameof(MnchContext.Facilities)} where {nameof(Facility.Id)}='{facilityId}') FacilityCode,
-(select ISNULL(max({nameof(PatientMnch.DateCreated)}),GETDATE()) from {nameof(MnchContext.MnchPatients)} where {nameof(PatientMnch.FacilityId)}='{facilityId}') Updated,
+(select ISNULL(max({nameof(PatientMnch.Created)}),GETDATE()) from {nameof(MnchContext.MnchPatients)} where {nameof(PatientMnch.FacilityId)}='{facilityId}') Updated,
 (select count(id) from {nameof(MnchContext.MnchPatients)} where facilityid='{facilityId}') {nameof(PatientMnch)},
 (select count(id) from {nameof(MnchContext.MnchEnrolments)} where facilityid='{facilityId}') {nameof(MnchEnrolment)},
 (select count(id) from {nameof(MnchContext.MnchArts)} where facilityid='{facilityId}') {nameof(MnchArt)},

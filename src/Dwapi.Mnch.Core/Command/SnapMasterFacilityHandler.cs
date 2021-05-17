@@ -1,11 +1,19 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Dwapi.Mnch.Core.Command;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using MediatR;
 
-namespace Dwapi.Mnch.Core.CommandHandler
+namespace Dwapi.Mnch.Core.Command
 {
+    public class SnapMasterFacility : IRequest<bool>
+    {
+        public int SiteCode { get; }
+
+        public SnapMasterFacility(int siteCode)
+        {
+            SiteCode = siteCode;
+        }
+    }
     public class SnapMasterFacilityHandler: IRequestHandler<SnapMasterFacility,bool>
     {
         private readonly IMasterFacilityRepository _masterFacilityRepository;

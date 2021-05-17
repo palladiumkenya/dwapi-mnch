@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dwapi.Mnch.Infrastructure.Migrations
 {
     [DbContext(typeof(MnchContext))]
-    [Migration("20210517114312_MnchInitial")]
+    [Migration("20210517163256_MnchInitial")]
     partial class MnchInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1406,38 +1406,26 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ClientSelfTested")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClientTestedAs")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("County")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CoupleDiscordant")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DOB")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateExtracted")
+                    b.Property<DateTime?>("DateExtracted")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DisabilityType")
+                    b.Property<DateTime?>("Date_Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Date_Last_Modified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EducationLevel")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("Dob")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Emr")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EncounterId")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("FacilityId")
                         .HasColumnType("uniqueidentifier");
@@ -1445,40 +1433,40 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("FacilityName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FinalResultHTS")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FinalResultsGiven")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("FirstEnrollmentAtMnch")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("KeyPop")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("KeyPopulationType")
+                    b.Property<string>("InSchool")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaritalStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MnchNumber")
+                    b.Property<string>("Occupation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MonthsLastTested")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PatientConsented")
+                    b.Property<string>("PatientHeiID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PatientDisabled")
+                    b.Property<string>("PatientMnchID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PatientPk")
                         .HasColumnType("int");
 
-                    b.Property<string>("PopulationType")
+                    b.Property<string>("PatientResidentCounty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientResidentSubCounty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientResidentWard")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pkv")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Processed")
@@ -1493,9 +1481,6 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Serial")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SiteCode")
                         .HasColumnType("int");
 
@@ -1504,51 +1489,6 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<DateTime?>("StatusDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("StrategyHTS")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SubCounty")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TBScreeningHTS")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("TestKitExpiryDate1")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TestKitExpiryDate2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestKitLotNumber1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestKitLotNumber2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestKitName1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestKitName2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestResultsHTS1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestResultsHTS2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestedBefore")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("VisitDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Ward")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

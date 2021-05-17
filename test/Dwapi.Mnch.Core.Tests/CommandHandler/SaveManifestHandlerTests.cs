@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dwapi.Mnch.Core.Command;
-using Dwapi.Mnch.Core.CommandHandler;
 using Dwapi.Mnch.Core.Domain;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.Infrastructure.Data;

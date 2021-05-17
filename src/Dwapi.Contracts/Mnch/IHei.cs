@@ -1,6 +1,6 @@
 using System;
 
-namespace Dwapi.Contracts.Mnch
+namespace Dwapi.Mnch.Contracts.Mnch
 {
     public interface IHei
     {

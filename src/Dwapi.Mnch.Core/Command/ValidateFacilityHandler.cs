@@ -1,13 +1,21 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Dwapi.Mnch.Core.Command;
 using Dwapi.Mnch.Core.Domain;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.SharedKernel.Exceptions;
 using MediatR;
 
-namespace Dwapi.Mnch.Core.CommandHandler
+namespace Dwapi.Mnch.Core.Command
 {
+    public class ValidateFacility : IRequest<MasterFacility>
+    {
+        public int SiteCode { get; }
+
+        public ValidateFacility(int siteCode)
+        {
+            SiteCode = siteCode;
+        }
+    }
     public class ValidateFacilityHandler: IRequestHandler<ValidateFacility,MasterFacility>
     {
         private readonly IMasterFacilityRepository _repository;

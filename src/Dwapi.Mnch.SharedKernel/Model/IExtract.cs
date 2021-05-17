@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Dwapi.Mnch.SharedKernel.Model
 {
@@ -13,6 +15,6 @@ namespace Dwapi.Mnch.SharedKernel.Model
         string Status { get; set; }
         DateTime? StatusDate { get; set; }
         DateTime? DateExtracted { get; set; }
-        public Guid FacilityId { get; set; }
+        Guid FacilityId { get; set; }
     }
 }

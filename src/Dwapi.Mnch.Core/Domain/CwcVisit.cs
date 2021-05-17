@@ -1,5 +1,5 @@
 using System;
-using Dwapi.Contracts.Mnch;
+using Dwapi.Mnch.Contracts.Mnch;
 using Dwapi.Mnch.SharedKernel.Model;
 
 namespace Dwapi.Mnch.Core.Domain

@@ -1,12 +1,22 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Dwapi.Mnch.Core.Command;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.SharedKernel.Exceptions;
 using MediatR;
 
-namespace Dwapi.Mnch.Core.CommandHandler
+namespace Dwapi.Mnch.Core.Command
 {
+
+    public class ValidateFacilityKey : IRequest<bool>
+    {
+        public Guid Key { get; }
+
+        public ValidateFacilityKey(Guid key)
+        {
+            Key = key;
+        }
+    }
     public class ValidateFacilityKeyHandler: IRequestHandler<ValidateFacilityKey,bool>
     {
         private readonly IFacilityRepository _repository;

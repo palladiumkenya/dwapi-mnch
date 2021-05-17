@@ -1,13 +1,26 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Dwapi.Mnch.Core.Command;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.SharedKernel.Exceptions;
 using Dwapi.Mnch.SharedKernel.Model;
 using MediatR;
 
-namespace Dwapi.Mnch.Core.CommandHandler
+namespace Dwapi.Mnch.Core.Command
 {
+
+    public class VerifySubscriber : IRequest<VerificationResponse>
+    {
+        public string DocketId { get; set; }
+        public string SubscriberId { get; }
+        public string AuthToken { get; }
+
+        public VerifySubscriber(string subscriberId, string authToken, string docketId = "MNCH")
+        {
+            DocketId = docketId;
+            SubscriberId = subscriberId;
+            AuthToken = authToken;
+        }
+    }
     public class VerifySubscriberHandler : IRequestHandler<VerifySubscriber, VerificationResponse>
     {
         private readonly IDocketRepository _repository;

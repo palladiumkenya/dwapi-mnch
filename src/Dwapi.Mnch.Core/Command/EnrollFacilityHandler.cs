@@ -1,14 +1,27 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Dwapi.Mnch.Core.Command;
 using Dwapi.Mnch.Core.Domain;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.SharedKernel.Utils;
 using MediatR;
 
-namespace Dwapi.Mnch.Core.CommandHandler
+namespace Dwapi.Mnch.Core.Command
 {
+    public class EnrollFacility : IRequest<Guid>
+    {
+        public int SiteCode { get; }
+        public string Name { get; }
+        public string Emr { get; set; }
+        public bool AllowSnapshot { get; set; }
+
+        public EnrollFacility(int siteCode, string name, string emr)
+        {
+            SiteCode = siteCode;
+            Name = name;
+            Emr = emr;
+        }
+    }
     public class EnrollFacilityHandler: IRequestHandler<EnrollFacility,Guid>
     {
         private readonly IMasterFacilityRepository _masterFacilityRepository;

@@ -47,13 +47,13 @@ namespace Dwapi.Mnch.Controllers
 
         // POST api/Mnch/Manifest
         [HttpPost("Manifest")]
-        public async Task<IActionResult> ProcessManifest([FromBody] SaveManifest manifest)
+        public async Task<IActionResult> ProcessManifest([FromBody] ManifestExtractDto manifestDto)
         {
-            if (null == manifest)
+            if (null == manifestDto)
                 return BadRequest();
-
             try
             {
+                var manifest = new SaveManifest(manifestDto.Manifest);
                 manifest.AllowSnapshot = Startup.AllowSnapshot;
                 var faciliyKey = await _mediator.Send(manifest, HttpContext.RequestAborted);
                 BackgroundJob.Enqueue(() => _manifestService.Process(manifest.Manifest.SiteCode));
@@ -70,12 +70,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("PatientMnch")]
-        public IActionResult ProcessPatientMnch([FromBody] SavePatientMnch client)
+        public IActionResult ProcessPatientMnch([FromBody] MnchExtractsDto extract)
         {
-            if (null == client) return BadRequest();
+            if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(client.ClientPatientMnch));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.PatientMnchExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -86,12 +86,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("MnchEnrolment")]
-        public IActionResult ProcessMnchEnrolment([FromBody] SaveMnchEnrolment extract)
+        public IActionResult ProcessMnchEnrolment([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientMnchEnrolment));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MnchEnrolmentExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -102,12 +102,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("MnchArt")]
-        public IActionResult ProcessMnchArt([FromBody] SaveMnchArt extract)
+        public IActionResult ProcessMnchArt([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientMnchArt));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MnchArtExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -118,12 +118,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("AncVisit")]
-        public IActionResult ProcessAncVisit([FromBody] SaveAncVisit extract)
+        public IActionResult ProcessAncVisit([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientAncVisit));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.AncVisitExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -134,12 +134,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("MatVisit")]
-        public IActionResult ProcessMatVisit([FromBody] SaveMatVisit extract)
+        public IActionResult ProcessMatVisit([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientMatVisit));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MatVisitExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -150,12 +150,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("PncVisit")]
-        public IActionResult ProcessPncVisit([FromBody] SavePncVisit extract)
+        public IActionResult ProcessPncVisit([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientPncVisit));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.PncVisitExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -166,12 +166,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("MotherBabyPair")]
-        public IActionResult ProcessMotherBabyPair([FromBody] SaveMotherBabyPair extract)
+        public IActionResult ProcessMotherBabyPair([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientMotherBabyPair));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MotherBabyPairExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -182,12 +182,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("CwcEnrolment")]
-        public IActionResult ProcessCwcEnrolment([FromBody] SaveCwcEnrolment extract)
+        public IActionResult ProcessCwcEnrolment([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientCwcEnrolment));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.CwcEnrolmentExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -198,12 +198,12 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("CwcVisit")]
-        public IActionResult ProcessCwcVisit([FromBody] SaveCwcVisit extract)
+        public IActionResult ProcessCwcVisit([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientCwcVisit));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.CwcVisitExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -214,17 +214,33 @@ namespace Dwapi.Mnch.Controllers
         }
 
         [HttpPost("Hei")]
-        public IActionResult ProcessHei([FromBody] SaveHei extract)
+        public IActionResult ProcessHei([FromBody] MnchExtractsDto extract)
         {
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.ClientHei));
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.HeiExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
             {
                 Log.Error(e, "Hei error");
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPost("MnchLab")]
+        public IActionResult ProcessMnchLab([FromBody] MnchExtractsDto extract)
+        {
+            if (null == extract) return BadRequest();
+            try
+            {
+                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MnchLabExtracts));
+                return Ok(new {BatchKey = id});
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "MnchArt error");
                 return StatusCode(500, e.Message);
             }
         }
