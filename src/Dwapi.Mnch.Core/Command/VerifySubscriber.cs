@@ -9,7 +9,7 @@ namespace Dwapi.Mnch.Core.Command
         public string SubscriberId { get; }
         public string AuthToken { get; }
 
-        public VerifySubscriber(string docketId, string subscriberId, string authToken)
+        public VerifySubscriber(string subscriberId, string authToken,string docketId="MNCH")
         {
             DocketId = docketId;
             SubscriberId = subscriberId;

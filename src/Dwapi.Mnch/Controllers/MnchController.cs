@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Dwapi.Mnch.Core.Command;
+using Dwapi.Mnch.Core.Domain.Dto;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.Core.Interfaces.Service;
 using Hangfire;
@@ -27,14 +28,14 @@ namespace Dwapi.Mnch.Controllers
 
         // POST api/Mnch/verify
         [HttpPost("Verify")]
-        public async Task<IActionResult> Verify([FromBody] VerifySubscriber subscriber)
+        public async Task<IActionResult> Verify([FromBody] SubscriberDto subscriber)
         {
             if (null == subscriber)
                 return BadRequest();
 
             try
             {
-                var dockect = await _mediator.Send(subscriber, HttpContext.RequestAborted);
+                var dockect = await _mediator.Send(new VerifySubscriber(subscriber.SubscriberId,subscriber.AuthToken), HttpContext.RequestAborted);
                 return Ok(dockect);
             }
             catch (Exception e)
