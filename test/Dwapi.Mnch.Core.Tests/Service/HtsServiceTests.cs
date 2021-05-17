@@ -110,13 +110,13 @@ namespace Dwapi.Mnch.Core.Tests.Service
         {
             var manifest = TestDataFactory.TestManifests(1).First();
             manifest.SiteCode = 1;
-            var patients = _context.Clients.ToList();
+            var patients = _context.MnchPatients.ToList();
             Assert.False(patients.Any());
 
             var id = _mediator.Send(new SaveManifest(manifest)).Result;
             _manifestService.Process(manifest.SiteCode);
             _mnchService.Process(_patientIndices);
-            Assert.True(_context.Clients.Any(x=>x.SiteCode==1));
+            Assert.True(_context.MnchPatients.Any(x=>x.SiteCode==1));
         }
 
         [Test]
@@ -125,19 +125,19 @@ namespace Dwapi.Mnch.Core.Tests.Service
             var manifests = TestDataFactory.TestManifests();
             manifests[0].SiteCode = 1;
             manifests[1].SiteCode = 2;
-            var patients = _context.Clients.ToList();
+            var patients = _context.MnchPatients.ToList();
             Assert.False(patients.Any());
 
             var id = _mediator.Send(new SaveManifest(manifests[0])).Result;
             _manifestService.Process(manifests[0].SiteCode);
             _mnchService.Process(_patientIndices);
-            Assert.True(_context.Clients.Any(x => x.SiteCode == 1));
+            Assert.True(_context.MnchPatients.Any(x => x.SiteCode == 1));
 
             var id2 = _mediator.Send(new SaveManifest(manifests[1])).Result;
             _manifestService.Process(manifests[1].SiteCode);
             _mnchService.Process(_patientIndicesSiteB);
-            Assert.True(_context.Clients.Any(x => x.SiteCode == 1));
-            Assert.True(_context.Clients.Any(x => x.SiteCode == 2));
+            Assert.True(_context.MnchPatients.Any(x => x.SiteCode == 1));
+            Assert.True(_context.MnchPatients.Any(x => x.SiteCode == 2));
         }
     }
 }

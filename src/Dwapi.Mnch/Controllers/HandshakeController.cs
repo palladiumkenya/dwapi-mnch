@@ -9,8 +9,7 @@ using Serilog;
 namespace Dwapi.Mnch.Controllers
 {
     [Route("api/mnch/[controller]")]
-    [ApiController]
-    public class HandshakeController : ControllerBase
+    public class HandshakeController : Controller
     {
         private readonly IManifestRepository _manifestRepository;
         private readonly ILiveSyncService _liveSyncService;

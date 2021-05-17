@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Data;
+using Dwapi.Mnch.Core.Command;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.Core.Interfaces.Service;
 using Dwapi.Mnch.Core.Service;
@@ -18,56 +15,36 @@ using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Serilog;
-using StructureMap;
 using Z.Dapper.Plus;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Dwapi.Mnch
 {
     public class Startup
     {
+        public IWebHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
-        public static IServiceProvider ServiceProvider { get; private set; }
         public static bool AllowSnapshot { get; set; }
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment environment,IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            Configuration = builder.Build();
+            Environment = environment;
+            Configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var assemblyNames = Assembly.GetEntryAssembly().GetReferencedAssemblies();
-            List<Assembly> assemblies = new List<Assembly>();
-            foreach (var assemblyName in assemblyNames)
-            {
-                assemblies.Add(Assembly.Load(assemblyName));
-            }
-            services.AddMediatR(assemblies.ToArray());
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             var connectionString = Configuration["ConnectionStrings:DwapiConnection"];
-
             var liveSync= Configuration["LiveSync"];
             var allowSnapshot= Configuration["AllowSnapshot"];
+
+            services.AddControllersWithViews();
+
             try
             {
                 services.AddDbContext<MnchContext>(o => o.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(MnchContext).GetTypeInfo().Assembly.GetName().Name)));
@@ -78,6 +55,7 @@ namespace Dwapi.Mnch
                 Log.Error(e,"Startup error");
             }
 
+            services.AddMediatR(typeof(SaveManifest).Assembly);
             services.AddScoped<IDocketRepository, DocketRepository>();
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
 
@@ -111,21 +89,11 @@ namespace Dwapi.Mnch
             }
             if (!string.IsNullOrWhiteSpace(allowSnapshot))
                 AllowSnapshot = Convert.ToBoolean(allowSnapshot);
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DWAPI Central MNCH API", Version = "v1" });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
-
-            var container = new Container();
-            container.Populate(services);
-            ServiceProvider = container.GetInstance<IServiceProvider>();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -134,31 +102,38 @@ namespace Dwapi.Mnch
             else
             {
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
-              app.UseForwardedHeaders(new ForwardedHeadersOptions
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
-            app.UseSwagger();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseRouting();
+
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DWAPI Central HTS API");
-                c.SupportedSubmitMethods(new Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod[] { });
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DWAPI Central MNCH API");
+                //c.SupportedSubmitMethods(new Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod[] { });
             });
 
-            // app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
 
-            EnsureMigrationOfContext<MnchContext>();
+            EnsureMigrationOfContext<MnchContext>(serviceProvider);
             Mapper.Initialize(cfg =>
                 {
                     cfg.AddDataReaderMapping();
                 }
             );
+
+
 
             #region HangFire
             try
@@ -178,8 +153,8 @@ namespace Dwapi.Mnch
 
             try
             {
-                DapperPlusManager.AddLicense("1755;700-ThePalladiumGroup", "2073303b-0cfc-fbb9-d45f-1723bb282a3c");
-                if (!Z.Dapper.Plus.DapperPlusManager.ValidateLicense(out var licenseErrorMessage))
+                DapperPlusManager.AddLicense("1755;700-ThePalladiumGroup", "218460a6-02d0-c26b-9add-e6b8d13ccbf4");
+                if (!DapperPlusManager.ValidateLicense(out var licenseErrorMessage))
                 {
                     throw new Exception(licenseErrorMessage);
                 }
@@ -205,14 +180,14 @@ namespace Dwapi.Mnch
             ");
             Log.Debug(
                 @"---------------------------------------------------------------------------------------------------");
-            Log.Debug("Dwapi Central started !");
+            Log.Debug("Dwapi Central MNCH started !");
         }
 
-        public static void EnsureMigrationOfContext<T>() where T : BaseContext
+        public static void EnsureMigrationOfContext<T>(IServiceProvider app) where T : BaseContext
         {
             var contextName = typeof(T).Name;
             Log.Debug($"initializing Database context: {contextName}");
-            var context = ServiceProvider.GetService<T>();
+            var context = app.GetService<T>();
             try
             {
                 context.Database.Migrate();

@@ -52,13 +52,13 @@ namespace Dwapi.Mnch.SharedKernel.Tests.TestData.TestData
             {
                 n++;
                 facility.SiteCode = n;
-                facility.Clients = Builder<PatientMnch>.CreateListOfSize(childcount)
+                facility.MnchPatients = Builder<PatientMnch>.CreateListOfSize(childcount)
                     .All()
                     .With(x => x.FacilityId == facility.Id)
                     .Build()
                     .ToList();
 
-                facility.Linkages = Builder<AncVisit>.CreateListOfSize(childcount)
+                facility.AncVisits = Builder<AncVisit>.CreateListOfSize(childcount)
                     .All()
                     .With(x => x.FacilityId == facility.Id)
                     .Build()

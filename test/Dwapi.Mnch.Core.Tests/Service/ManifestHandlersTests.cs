@@ -78,8 +78,8 @@ namespace Dwapi.Mnch.Core.Tests.Service
             var facilities = TestDataFactory.TestFacilities();
             _context.Facilities.AddRange(facilities);
             _context.SaveChanges();
-            _context.Clients.AddRange(TestDataFactory.TestClients(1, facilities.First(x => x.SiteCode == 1).Id));
-            _context.Clients.AddRange(TestDataFactory.TestClients(2, facilities.First(x => x.SiteCode == 2).Id));
+            _context.MnchPatients.AddRange(TestDataFactory.TestClients(1, facilities.First(x => x.SiteCode == 1).Id));
+            _context.MnchPatients.AddRange(TestDataFactory.TestClients(2, facilities.First(x => x.SiteCode == 2).Id));
             _context.SaveChanges();
 
             //1,
@@ -95,7 +95,7 @@ namespace Dwapi.Mnch.Core.Tests.Service
         [Test]
         public void should_Clear_By_Site()
         {
-            var sitePatients = _context.Clients.ToList();
+            var sitePatients = _context.MnchPatients.ToList();
             Assert.True(sitePatients.Any(x=>x.SiteCode==1));
             Assert.True(sitePatients.Any(x => x.SiteCode == 2));
 
@@ -108,7 +108,7 @@ namespace Dwapi.Mnch.Core.Tests.Service
             var id=_mediator.Send(new SaveManifest(manifests.First())).Result;
             _manifestService.Process(manifests.First().SiteCode);
 
-            var remainingPatients = _context.Clients.ToList();
+            var remainingPatients = _context.MnchPatients.ToList();
             Assert.False(remainingPatients.Any(x => x.SiteCode == 1 && x.Project!="IRDO"));
             Assert.True(remainingPatients.Any(x => x.SiteCode == 2 && x.Project!="IRDO"));
         }
@@ -116,7 +116,7 @@ namespace Dwapi.Mnch.Core.Tests.Service
         [Test]
         public void should_Clear_By_Community_Site()
         {
-            var sitePatients = _context.Clients.ToList();
+            var sitePatients = _context.MnchPatients.ToList();
             Assert.True(sitePatients.Any(x=>x.SiteCode==1));
             Assert.True(sitePatients.Any(x => x.SiteCode == 2));
 
@@ -129,7 +129,7 @@ namespace Dwapi.Mnch.Core.Tests.Service
             var id=_mediator.Send(new SaveManifest(manifests.First())).Result;
             _manifestService.Process(manifests.First().SiteCode);
 
-            var remainingPatients = _context.Clients.ToList();
+            var remainingPatients = _context.MnchPatients.ToList();
             Assert.False(remainingPatients.Any(x => x.SiteCode == 2 && x.Project=="IRDO"));
             Assert.True(remainingPatients.Any(x => x.SiteCode == 1 && x.Project=="IRDO"));
         }

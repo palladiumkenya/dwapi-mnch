@@ -52,30 +52,37 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
         {
             string sql = $@"
 select
-(select top 1 SiteCode from Facilities where id='{facilityId}') FacilityCode,
-(select ISNULL(max(DateCreated),GETDATE()) from Clients where facilityid='{facilityId}') Updated,
-(select count(id) from Clients where facilityid='{facilityId}') PatientMnchExtract,
-(select count(id) from ClientLinkages where facilityid='{facilityId}') AncVisitExtract,
-(select count(id) from PatientMnchTests where facilityid='{facilityId}') PatientMnchTestsExtract,
-(select count(id) from PatientMnchTracing where facilityid='{facilityId}') PatientMnchTracingExtract,
-(select count(id) from MnchPartnerNotificationServices where facilityid='{facilityId}') MnchPartnerNotificationServicesExtract,
-(select count(id) from MnchPartnerTracings where facilityid='{facilityId}') MnchPartnerTracingExtract,
-(select count(id) from MnchTestKits where facilityid='{facilityId}') MnchTestKitsExtract
-                ";
+(select top 1 {nameof(Facility.SiteCode)} from {nameof(MnchContext.Facilities)} where {nameof(Facility.Id)}='{facilityId}') FacilityCode,
+(select ISNULL(max({nameof(PatientMnch.DateCreated)}),GETDATE()) from {nameof(MnchContext.MnchPatients)} where {nameof(PatientMnch.FacilityId)}='{facilityId}') Updated,
+(select count(id) from {nameof(MnchContext.MnchPatients)} where facilityid='{facilityId}') {nameof(PatientMnch)},
+(select count(id) from {nameof(MnchContext.MnchEnrolments)} where facilityid='{facilityId}') {nameof(MnchEnrolment)},
+(select count(id) from {nameof(MnchContext.MnchArts)} where facilityid='{facilityId}') {nameof(MnchArt)},
+(select count(id) from {nameof(MnchContext.AncVisits)} where facilityid='{facilityId}') {nameof(AncVisit)},
+(select count(id) from {nameof(MnchContext.MatVisits)} where facilityid='{facilityId}') {nameof(MatVisit)},
+(select count(id) from {nameof(MnchContext.PncVisits)} where facilityid='{facilityId}') {nameof(PncVisit)},
+(select count(id) from {nameof(MnchContext.MotherBabyPairs)} where facilityid='{facilityId}') {nameof(MotherBabyPair)},
+(select count(id) from {nameof(MnchContext.CwcEnrolments)} where facilityid='{facilityId}') {nameof(CwcEnrolment)},
+(select count(id) from {nameof(MnchContext.CwcVisits)} where facilityid='{facilityId}') {nameof(CwcVisit)},
+(select count(id) from {nameof(MnchContext.Heis)} where facilityid='{facilityId}') {nameof(Hei)},
+(select count(id) from {nameof(MnchContext.MnchLabs)} where facilityid='{facilityId}') {nameof(MnchLab)}
+";
 
             var result = GetDbConnection().Query<dynamic>(sql).FirstOrDefault();
 
             if (null != result)
             {
                 var stats=new StatsDto(result.FacilityCode,result.Updated);
-                stats.AddStats("PatientMnchExtract",result.PatientMnchExtract);
-                stats.AddStats("AncVisitExtract",result.AncVisitExtract);
-                stats.AddStats("PatientMnchTestsExtract",result.PatientMnchTestsExtract);
-                stats.AddStats("PatientMnchTracingExtract",result.PatientMnchTracingExtract);
-                stats.AddStats("MnchPartnerNotificationServicesExtract",result.MnchPartnerNotificationServicesExtract);
-                stats.AddStats("MnchPartnerTracingExtract",result.MnchPartnerTracingExtract);
-                stats.AddStats("MnchTestKitsExtract",result.MnchTestKitsExtract);
-
+                stats.AddStats($"{nameof(PatientMnch)}",result.PatientMnch);
+                stats.AddStats($"{nameof(MnchEnrolment)}",result.MnchEnrolment);
+                stats.AddStats($"{nameof(MnchArt)}",result.MnchArt);
+                stats.AddStats($"{nameof(AncVisit)}",result.AncVisit);
+                stats.AddStats($"{nameof(MatVisit)}",result.MatVisit);
+                stats.AddStats($"{nameof(PncVisit)}",result.PncVisit);
+                stats.AddStats($"{nameof(MotherBabyPair)}",result.MotherBabyPair);
+                stats.AddStats($"{nameof(CwcEnrolment)}",result.CwcEnrolment);
+                stats.AddStats($"{nameof(CwcVisit)}",result.CwcVisit);
+                stats.AddStats($"{nameof(Hei)}",result.Hei);
+                stats.AddStats($"{nameof(MnchLab)}",result.MnchLab);
                 return stats;
             }
 

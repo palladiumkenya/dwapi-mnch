@@ -28,7 +28,7 @@ namespace Dwapi.Mnch.SharedKernel.Infrastructure.Data
 
         public virtual Task<T> GetAsync(TId id)
         {
-            return DbSet.FindAsync(id);
+            return DbSet.FindAsync(id).AsTask();
         }
 
         public virtual Task<T> GetAsync(Expression<Func<T, bool>> predicate)

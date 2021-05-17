@@ -59,10 +59,10 @@ namespace Dwapi.Mnch.Infrastructure.Tests.Data.Repository
         [Test]
         public void should_Clear_With_Manifest_Facility()
         {
-            var patients = _context.Clients;
+            var patients = _context.MnchPatients;
             Assert.True(patients.Any());
            _manifestRepository.ClearFacility(_manifests);
-            var nopatients = _context.Clients;
+            var nopatients = _context.MnchPatients;
             Assert.False(nopatients.Any());
         }
 

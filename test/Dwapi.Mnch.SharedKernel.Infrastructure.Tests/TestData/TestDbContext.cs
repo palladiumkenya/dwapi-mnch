@@ -1,7 +1,8 @@
 ﻿using Dwapi.Mnch.SharedKernel.Infrastructure.Data;
 using Dwapi.Mnch.SharedKernel.Tests.TestData.TestData.Models;
-using EFCore.Seeder.Extensions;
+using Dwapi.Mnch.SharedKernel.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Dwapi.Mnch.SharedKernel.Infrastructure.Tests.TestData
 {
@@ -16,8 +17,18 @@ namespace Dwapi.Mnch.SharedKernel.Infrastructure.Tests.TestData
 
         public override void EnsureSeeded()
         {
-            TestCars.SeedDbSetIfEmpty($"{nameof(TestCar)}");
-            TestModels.SeedDbSetIfEmpty($"{nameof(TestModel)}");
+            if (!TestCars.Any())
+            {
+                var data = SeedDataReader.ReadCsv<TestCar>(typeof(TestDbContext).Assembly,"Seed","|");
+                TestCars.AddRange(data);
+            }
+
+            if (!TestModels.Any())
+            {
+                var data = SeedDataReader.ReadCsv<TestModel>(typeof(TestDbContext).Assembly,"Seed","|");
+                TestModels.AddRange(data);
+            }
+
             base.EnsureSeeded();
         }
     }

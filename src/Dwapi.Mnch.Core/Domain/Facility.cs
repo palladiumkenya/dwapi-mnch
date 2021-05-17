@@ -16,8 +16,18 @@ namespace Dwapi.Mnch.Core.Domain
         public DateTime? SnapshotDate { get; set; }
         public int? SnapshotSiteCode { get; set; }
         public int? SnapshotVersion { get; set; }
-        public ICollection<PatientMnch> Clients { get; set; }=new List<PatientMnch>();
-        public ICollection<AncVisit> Linkages { get; set; }=new List<AncVisit>();
+
+        public ICollection<PatientMnch> MnchPatients { get; set; }=new List<PatientMnch>();
+        public virtual ICollection<MnchEnrolment> MnchEnrolments { get; set; } = new List<MnchEnrolment>();
+        public ICollection<AncVisit> AncVisits { get; set; }=new List<AncVisit>();
+        public virtual ICollection<MnchArt> MnchArts { get; set; } = new List<MnchArt>();
+        public virtual ICollection<MatVisit> MatVisits { get; set; } = new List<MatVisit>();
+        public virtual ICollection<PncVisit> PncVisits { get; set; } = new List<PncVisit>();
+        public virtual ICollection<MotherBabyPair> MotherBabyPairs { get; set; } = new List<MotherBabyPair>();
+        public virtual ICollection<CwcEnrolment> CwcEnrolments { get; set; } = new List<CwcEnrolment>();
+        public virtual ICollection<CwcVisit> CwcVisits { get; set; } = new List<CwcVisit>();
+        public virtual ICollection<Hei> Heis { get; set; } = new List<Hei>();
+        public virtual ICollection<MnchLab> MnchLabs { get; set; } = new List<MnchLab>();
 
         public ICollection<Manifest> Manifests { get; set; }=new List<Manifest>();
 

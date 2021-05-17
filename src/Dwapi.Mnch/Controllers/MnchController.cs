@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using Dwapi.Mnch.Core.Command;
 using Dwapi.Mnch.Core.Interfaces.Repository;
@@ -12,8 +11,7 @@ using Serilog;
 namespace Dwapi.Mnch.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class MnchController : ControllerBase
+    public class MnchController : Controller
     {
         private readonly IMediator _mediator;
         private readonly IManifestService _manifestService;

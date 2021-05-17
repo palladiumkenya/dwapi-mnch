@@ -23,8 +23,17 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
             var ids = string.Join(',', manifests.Select(x =>$"'{x.FacilityId}'"));
             ExecSql(
                 $@"
-                    DELETE FROM {nameof(MnchContext.Clients)} WHERE {nameof(PatientMnch.FacilityId)} in ({ids}) AND {nameof(PatientMnch.Project)} <> 'IRDO';
-                    DELETE FROM {nameof(MnchContext.ClientLinkages)} WHERE {nameof(AncVisit.FacilityId)} in ({ids}) AND {nameof(AncVisit.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.MnchPatients)} WHERE {nameof(PatientMnch.FacilityId)} in ({ids}) AND {nameof(PatientMnch.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.MnchEnrolments)} WHERE {nameof(MnchEnrolment.FacilityId)} in ({ids}) AND {nameof(MnchEnrolment.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.MnchArts)} WHERE {nameof(MnchArt.FacilityId)} in ({ids}) AND {nameof(MnchArt.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.AncVisits)} WHERE {nameof(AncVisit.FacilityId)} in ({ids}) AND {nameof(AncVisit.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.MatVisits)} WHERE {nameof(MatVisit.FacilityId)} in ({ids}) AND {nameof(MatVisit.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.PncVisits)} WHERE {nameof(PncVisit.FacilityId)} in ({ids}) AND {nameof(PncVisit.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.MotherBabyPairs)} WHERE {nameof(MotherBabyPair.FacilityId)} in ({ids}) AND {nameof(MotherBabyPair.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.CwcEnrolments)} WHERE {nameof(CwcEnrolment.FacilityId)} in ({ids}) AND {nameof(CwcEnrolment.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.FacilityId)} in ({ids}) AND {nameof(CwcVisit.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.Heis)} WHERE {nameof(Hei.FacilityId)} in ({ids}) AND {nameof(Hei.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.FacilityId)} in ({ids}) AND {nameof(MnchLab.Project)} <> 'IRDO';
                  "
                 );
 
@@ -45,8 +54,17 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
             var ids = string.Join(',', manifests.Select(x =>$"'{x.FacilityId}'"));
             ExecSql(
                 $@"
-                    DELETE FROM {nameof(MnchContext.Clients)} WHERE {nameof(PatientMnch.FacilityId)} in ({ids}) AND {nameof(PatientMnch.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.ClientLinkages)} WHERE {nameof(AncVisit.FacilityId)} in ({ids}) AND {nameof(AncVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MnchPatients)} WHERE {nameof(PatientMnch.FacilityId)} in ({ids}) AND {nameof(PatientMnch.Project)}='{project}';                   
+                    DELETE FROM {nameof(MnchContext.MnchEnrolments)} WHERE {nameof(MnchEnrolment.FacilityId)} in ({ids}) AND {nameof(MnchEnrolment.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MnchArts)} WHERE {nameof(MnchArt.FacilityId)} in ({ids}) AND {nameof(MnchArt.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.AncVisits)} WHERE {nameof(AncVisit.FacilityId)} in ({ids}) AND {nameof(AncVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MatVisits)} WHERE {nameof(MatVisit.FacilityId)} in ({ids}) AND {nameof(MatVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.PncVisits)} WHERE {nameof(PncVisit.FacilityId)} in ({ids}) AND {nameof(PncVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MotherBabyPairs)} WHERE {nameof(MotherBabyPair.FacilityId)} in ({ids}) AND {nameof(MotherBabyPair.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.CwcEnrolments)} WHERE {nameof(CwcEnrolment.FacilityId)} in ({ids}) AND {nameof(CwcEnrolment.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.FacilityId)} in ({ids}) AND {nameof(CwcVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.Heis)} WHERE {nameof(Hei.FacilityId)} in ({ids}) AND {nameof(Hei.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.FacilityId)} in ({ids}) AND {nameof(MnchLab.Project)}='{project}';
                  "
             );
 

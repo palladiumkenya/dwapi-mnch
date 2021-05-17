@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
@@ -15,46 +9,45 @@ namespace Dwapi.Mnch
 {
     public class Program
     {
-            public static void Main(string[] args)
+        public static void Main(string[] args)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
+                .Enrich.FromLogContext()
+                .WriteTo.Console(LogEventLevel.Debug)
+                .WriteTo.RollingFile(@"logs/{Date}.log", LogEventLevel.Error)
+                .CreateLogger();
+
+            try
             {
-                Log.Logger = new LoggerConfiguration()
-                    .MinimumLevel.Debug()
-                    .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
-                    .Enrich.FromLogContext()
-                    .WriteTo.Console(LogEventLevel.Debug)
-                    .WriteTo.RollingFile("logs/dwapilog-{Date}.txt", LogEventLevel.Error)
-                    .CreateLogger();
-
-                try
-                {
-                    Log.Information("Starting Dwapi MNCH Central...");
-                    BuildWebHost(args).Run();
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Host terminated unexpectedly");
-                }
-                finally
-                {
-                    Log.CloseAndFlush();
-                }
+                Log.Information($"Starting Dwapi.MNCH ...");
+                var host = CreateHostBuilder(args).Build();
+                //var config = host.Services.GetRequiredService<IConfiguration>();
+                //BotSetup.Initialize(config);
+                host.Run();
             }
-
-            public static IWebHost BuildWebHost(string[] args)
+            catch (Exception ex)
             {
-                var config = new ConfigurationBuilder()
-                    .AddJsonFile("hosting.json", optional: true)
-                    .AddCommandLine(args)
-                    .Build();
-
-                var host = WebHost.CreateDefaultBuilder(args)
-                    .UseKestrel(options => { options.Limits.MaxRequestBodySize = null; })
-                    .UseConfiguration(config)
-                    .UseContentRoot(Directory.GetCurrentDirectory())
-                    .UseStartup<Startup>()
-                    .UseSerilog()
-                    .Build();
-                return host;
+                Log.Fatal(ex, "Host terminated unexpectedly");
             }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
+
+        public static IWebHostBuilder CreateHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseConfiguration(GetConfig(args))
+                .UseStartup<Startup>()
+                .UseSerilog();
+
+        private static IConfigurationRoot GetConfig(string[] args)
+        {
+            return new ConfigurationBuilder()
+                .AddJsonFile("hosting.json", optional: true)
+                .AddCommandLine(args).Build();
+        }
     }
 }
