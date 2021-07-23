@@ -16,14 +16,14 @@ namespace Dwapi.Mnch.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IManifestService _manifestService;
-        private readonly IMnchService _htsService;
+        private readonly IMnchService _mnchService;
 
         public MnchController(IMediator mediator, IManifestRepository manifestRepository,
-            IManifestService manifestService, IMnchService htsService)
+            IManifestService manifestService, IMnchService mnchService)
         {
             _mediator = mediator;
             _manifestService = manifestService;
-            _htsService = htsService;
+            _mnchService = mnchService;
         }
 
         // POST api/Mnch/verify
@@ -75,7 +75,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.PatientMnchExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.PatientMnchExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -91,7 +91,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MnchEnrolmentExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.MnchEnrolmentExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -107,7 +107,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MnchArtExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.MnchArtExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -123,7 +123,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.AncVisitExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.AncVisitExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -139,7 +139,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MatVisitExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.MatVisitExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -155,7 +155,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.PncVisitExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.PncVisitExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -171,7 +171,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MotherBabyPairExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.MotherBabyPairExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -187,7 +187,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.CwcEnrolmentExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.CwcEnrolmentExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -203,7 +203,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.CwcVisitExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.CwcVisitExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -219,7 +219,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.HeiExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.HeiExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -235,7 +235,7 @@ namespace Dwapi.Mnch.Controllers
             if (null == extract) return BadRequest();
             try
             {
-                var id = BackgroundJob.Enqueue(() => _htsService.Process(extract.MnchLabExtracts));
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.MnchLabExtracts));
                 return Ok(new {BatchKey = id});
             }
             catch (Exception e)
@@ -257,7 +257,7 @@ namespace Dwapi.Mnch.Controllers
                 {
                     name = "Dwapi Central - API (MNCH)",
                     status = "running",
-                    build = "13MAY21211"
+                    build = "23JUL21319"
                 });
             }
             catch (Exception e)

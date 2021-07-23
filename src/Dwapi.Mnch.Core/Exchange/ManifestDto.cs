@@ -28,7 +28,7 @@ namespace Dwapi.Mnch.Core.Exchange
             Id = manifest.Id;
             FacilityCode = manifest.SiteCode;
             FacilityName = manifest.Name;
-            Docket = "HTS";
+            Docket = "MNCH";
             LogDate = manifest.DateLogged;
             BuildDate = manifest.DateArrived;
             PatientCount = count;
@@ -58,7 +58,7 @@ namespace Dwapi.Mnch.Core.Exchange
 
             var cargoes = cargoBox.Where(x =>
                     x.Type == CargoType.AppMetrics &&
-                    x.Items.Contains("HivTestingService") &&
+                    x.Items.Contains("MnchService") &&
                     x.Items.Contains("ExtractCargos"))
                 .Select(c => c.Items)
                 .ToList();

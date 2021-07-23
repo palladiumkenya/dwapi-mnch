@@ -13,7 +13,7 @@ namespace Dwapi.Mnch.Core.Exchange
         public StatsDto(int facilityCode, DateTime updated)
         {
             FacilityCode = facilityCode;
-            Docket = new DocketDto("HTS");
+            Docket = new DocketDto("MNCH");
             Updated = updated;
         }
 
