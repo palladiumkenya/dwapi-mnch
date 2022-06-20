@@ -422,6 +422,7 @@ namespace Dwapi.Mnch.Core.Service
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("error for hei extract ===============> ");
                     Log.Error(e, $"Facility Id missing {extract.SiteCode}");
                 }
 
@@ -440,6 +441,7 @@ namespace Dwapi.Mnch.Core.Service
 
         public void Process(IEnumerable<MnchLab> extracts)
         {
+            Console.WriteLine("mnch lab process===============> ");
             List<Guid> facilityIds=new List<Guid>();
             if(null==extracts)
                 return;
