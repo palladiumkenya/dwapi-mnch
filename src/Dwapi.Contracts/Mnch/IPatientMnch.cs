@@ -20,5 +20,7 @@ namespace Dwapi.Mnch.Contracts.Mnch
         string InSchool { get; set; }
         DateTime? Date_Created { get; set; }
         DateTime? Date_Last_Modified { get; set; }
+        public string NUPI { get; set; }
+      
     }
 }

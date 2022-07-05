@@ -4,14 +4,16 @@ using Dwapi.Mnch.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dwapi.Mnch.Infrastructure.Migrations
 {
     [DbContext(typeof(MnchContext))]
-    partial class MnchContextModelSnapshot : ModelSnapshot
+    [Migration("20220705103906_MnchPatientNUPI")]
+    partial class MnchPatientNUPI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -644,14 +646,14 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BasellineVL")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("BasellineVL")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("BasellineVLDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ConfirmatoryPCR")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("ConfirmatoryPCR")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ConfirmatoryPCRDate")
                         .HasColumnType("datetime2");
@@ -659,20 +661,20 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DNAPCR1")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("DNAPCR1")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DNAPCR1Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DNAPCR2")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("DNAPCR2")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DNAPCR2Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DNAPCR3")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("DNAPCR3")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DNAPCR3Date")
                         .HasColumnType("datetime2");
@@ -695,8 +697,8 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("FacilityName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FinalyAntibody")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("FinalyAntibody")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FinalyAntibodyDate")
                         .HasColumnType("datetime2");
