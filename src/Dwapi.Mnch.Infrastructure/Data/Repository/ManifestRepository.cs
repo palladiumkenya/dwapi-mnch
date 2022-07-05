@@ -121,5 +121,11 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
                 Id = x.Id, End = x.End, Session = x.Session, Start = x.Start
             });
         }
+        public void updateCount(Guid id, int clientCount)
+        {
+            var sql =
+                $"UPDATE {nameof(MnchContext.Manifests)} SET [{nameof(Manifest.Recieved)}]=@clientCount WHERE [{nameof(Manifest.Id)}]=@id";
+            Context.Database.GetDbConnection().Execute(sql, new { id, clientCount });
+        }
     }
 }
