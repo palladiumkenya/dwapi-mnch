@@ -257,7 +257,8 @@ namespace Dwapi.Mnch.Controllers
                 {
                     name = "Dwapi Central - API (MNCH)",
                     status = "running",
-                    build = "23JUL21319"
+                    version = "v1.0.0.1",
+                    build = "05JUL221246"
                 });
             }
             catch (Exception e)

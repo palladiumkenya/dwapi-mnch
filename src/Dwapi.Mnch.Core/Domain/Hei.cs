@@ -24,15 +24,15 @@ namespace Dwapi.Mnch.Core.Domain
         public DateTime? ConfirmatoryPCRDate { get; set; }
         public DateTime? BasellineVLDate { get; set; }
         public DateTime? FinalyAntibodyDate { get; set; }
-        public string? DNAPCR1 { get; set; }
-        public string? DNAPCR2 { get; set; }
-        public string? DNAPCR3 { get; set; }
-        public string? ConfirmatoryPCR { get; set; }
-        public string? BasellineVL { get; set; }
-        public string? FinalyAntibody { get; set; }
+        public string DNAPCR1 { get; set; }
+        public string DNAPCR2 { get; set; }
+        public string DNAPCR3 { get; set; }
+        public string ConfirmatoryPCR { get; set; }
+        public string BasellineVL { get; set; }
+        public string FinalyAntibody { get; set; }
         public DateTime? HEIExitDate { get; set; }
-        public string? HEIHIVStatus { get; set; }
-        public string? HEIExitCritearia { get; set; }
+        public string HEIHIVStatus { get; set; }
+        public string HEIExitCritearia { get; set; }
         public DateTime? Date_Created { get; set; }
         public DateTime? Date_Last_Modified { get; set; }
         public override void UpdateRefId()
