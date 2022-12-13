@@ -120,6 +120,7 @@ namespace Dwapi.Mnch
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DWAPI Central MNCH API");
                 //c.SupportedSubmitMethods(new Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod[] { });
             });
+            
 
             app.UseEndpoints(endpoints =>
             {
