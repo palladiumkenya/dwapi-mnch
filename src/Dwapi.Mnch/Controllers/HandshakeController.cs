@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.Core.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
 using Serilog;
 
 namespace Dwapi.Mnch.Controllers
