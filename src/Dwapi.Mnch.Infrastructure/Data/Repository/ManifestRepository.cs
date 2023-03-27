@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Dwapi.ExtractsManagement.Core.Model.Destination.Mnch;
 using Dwapi.Mnch.Core.Domain;
 using Dwapi.Mnch.Core.Domain.Dto;
 using Dwapi.Mnch.Core.Interfaces.Repository;
@@ -34,6 +35,8 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
                     DELETE FROM {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.FacilityId)} in ({ids}) AND {nameof(CwcVisit.Project)} <> 'IRDO';
                     DELETE FROM {nameof(MnchContext.Heis)} WHERE {nameof(Hei.FacilityId)} in ({ids}) AND {nameof(Hei.Project)} <> 'IRDO';
                     DELETE FROM {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.FacilityId)} in ({ids}) AND {nameof(MnchLab.Project)} <> 'IRDO';
+                    DELETE FROM {nameof(MnchContext.MnchImmunizations)} WHERE {nameof(MnchImmunization.FacilityId)} in ({ids}) AND {nameof(MnchImmunization.Project)} <> 'IRDO';
+
                  "
                 );
 
@@ -65,6 +68,8 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
                     DELETE FROM {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.FacilityId)} in ({ids}) AND {nameof(CwcVisit.Project)}='{project}';
                     DELETE FROM {nameof(MnchContext.Heis)} WHERE {nameof(Hei.FacilityId)} in ({ids}) AND {nameof(Hei.Project)}='{project}';
                     DELETE FROM {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.FacilityId)} in ({ids}) AND {nameof(MnchLab.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MnchImmunizations)} WHERE {nameof(MnchImmunization.FacilityId)} in ({ids}) AND {nameof(MnchImmunization.Project)}='{project}';
+
                  "
             );
 

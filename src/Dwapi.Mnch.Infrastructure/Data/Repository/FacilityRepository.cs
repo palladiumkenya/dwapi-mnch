@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dapper;
+using Dwapi.ExtractsManagement.Core.Model.Destination.Mnch;
 using Dwapi.Mnch.Core.Domain;
 using Dwapi.Mnch.Core.Exchange;
 using Dwapi.Mnch.Core.Interfaces.Repository;
@@ -64,7 +65,9 @@ select
 (select count(id) from {nameof(MnchContext.CwcEnrolments)} where facilityid='{facilityId}') {nameof(CwcEnrolment)},
 (select count(id) from {nameof(MnchContext.CwcVisits)} where facilityid='{facilityId}') {nameof(CwcVisit)},
 (select count(id) from {nameof(MnchContext.Heis)} where facilityid='{facilityId}') {nameof(Hei)},
-(select count(id) from {nameof(MnchContext.MnchLabs)} where facilityid='{facilityId}') {nameof(MnchLab)}
+(select count(id) from {nameof(MnchContext.MnchLabs)} where facilityid='{facilityId}') {nameof(MnchLab)},
+(select count(id) from {nameof(MnchContext.MnchImmunizations)} where facilityid='{facilityId}') {nameof(MnchImmunization)}
+
 ";
 
             var result = GetDbConnection().Query<dynamic>(sql).FirstOrDefault();
@@ -83,6 +86,8 @@ select
                 stats.AddStats($"{nameof(CwcVisit)}",result.CwcVisit);
                 stats.AddStats($"{nameof(Hei)}",result.Hei);
                 stats.AddStats($"{nameof(MnchLab)}",result.MnchLab);
+                stats.AddStats($"{nameof(MnchImmunization)}",result.MnchImmunization);
+
                 return stats;
             }
 

@@ -4,14 +4,16 @@ using Dwapi.Mnch.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dwapi.Mnch.Infrastructure.Migrations
 {
     [DbContext(typeof(MnchContext))]
-    partial class MnchContextModelSnapshot : ModelSnapshot
+    [Migration("20230316123530_PMTCTImmunizationsAndMnchUpdates")]
+    partial class PMTCTImmunizationsAndMnchUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,9 +265,6 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<decimal?>("Height")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("HepatitisBScreening")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("IronSupplementsGiven")
                         .HasColumnType("nvarchar(max)");
 
@@ -273,12 +272,6 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("MalariaProphylaxis")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MiminumPackageOfCareReceived")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MiminumPackageOfCareServices")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("MotherGivenHAART")
@@ -309,12 +302,6 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PostParturmFP")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PresumptiveTreatmentDose")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PresumptiveTreatmentGiven")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PreventiveServices")
@@ -381,9 +368,6 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TetanusDose")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TreatedHepatitisB")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UrinalysisVariables")

@@ -244,6 +244,23 @@ namespace Dwapi.Mnch.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        
+        [HttpPost("MnchImmunization")]
+        public IActionResult ProcessMnchImmunization([FromBody] MnchExtractsDto extract)
+        {
+            if (null == extract) return BadRequest();
+            try
+            {
+                var id = BackgroundJob.Enqueue(() => _mnchService.Process(extract.MnchImmunizationExtracts));
+                return Ok(new {BatchKey = id});
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "MnchImmunization error");
+                return StatusCode(500, e.Message);
+            }
+        }
+
 
 
         // POST api/Mnch/Status

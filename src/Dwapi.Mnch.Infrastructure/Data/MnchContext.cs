@@ -1,4 +1,5 @@
-﻿using Dwapi.Mnch.Core.Domain;
+﻿using Dwapi.ExtractsManagement.Core.Model.Destination.Mnch;
+using Dwapi.Mnch.Core.Domain;
 using Dwapi.Mnch.SharedKernel.Infrastructure.Data;
 using Dwapi.Mnch.SharedKernel.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ namespace Dwapi.Mnch.Infrastructure.Data
         public DbSet<CwcVisit> CwcVisits { get; set; }
         public DbSet<Hei> Heis { get; set; }
         public DbSet<MnchLab> MnchLabs { get; set; }
+        public DbSet<MnchImmunization> MnchImmunizations { get; set; }
 
         public MnchContext(DbContextOptions<MnchContext> options) : base(options)
         {
@@ -55,6 +57,7 @@ namespace Dwapi.Mnch.Infrastructure.Data
             DapperPlusManager.Entity<CwcVisit>().Key(x => x.Id).Table($"{nameof(MnchContext.CwcVisits)}");
             DapperPlusManager.Entity<Hei>().Key(x => x.Id).Table($"{nameof(MnchContext.Heis)}");
             DapperPlusManager.Entity<MnchLab>().Key(x => x.Id).Table($"{nameof(MnchContext.MnchLabs)}");
+            DapperPlusManager.Entity<MnchImmunization>().Key(x => x.Id).Table($"{nameof(MnchContext.MnchImmunizations)}");
 
         }
 

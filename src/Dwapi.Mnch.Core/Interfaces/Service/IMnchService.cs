@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dwapi.ExtractsManagement.Core.Model.Destination.Mnch;
 using Dwapi.Mnch.Core.Domain;
 
 namespace Dwapi.Mnch.Core.Interfaces.Service
@@ -16,5 +17,7 @@ namespace Dwapi.Mnch.Core.Interfaces.Service
         void Process(IEnumerable<CwcVisit> extracts);
         void Process(IEnumerable<Hei> extracts);
         void Process(IEnumerable<MnchLab> extracts);
+        void Process(IEnumerable<MnchImmunization> extracts);
+
     }
 }

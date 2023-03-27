@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dwapi.ExtractsManagement.Core.Model.Destination.Mnch;
 using Dwapi.Mnch.Core.Domain;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.Core.Interfaces.Service;
@@ -29,9 +30,10 @@ namespace Dwapi.Mnch.Core.Service
         private readonly ICwcVisitRepository _cwcVisitRepository;
         private readonly IHeiRepository _heiRepository;
         private readonly IMnchLabRepository _mnchLabRepository;
+        private readonly IMnchImmunizationRepository _mnchImmunizationRepository;
 
 
-        public MnchService(IPatientMnchRepository patientMnchRepository, IAncVisitRepository ancVisitRepository, IFacilityRepository facilityRepository, ILiveSyncService syncService, IMnchEnrolmentRepository mnchEnrolmentRepository, IMnchArtRepository mnchArtRepository, IMatVisitRepository matVisitRepository, IPncVisitRepository pncVisitRepository, IMotherBabyPairRepository motherBabyPairRepository, ICwcEnrolmentRepository cwcEnrolmentRepository, ICwcVisitRepository cwcVisitRepository, IHeiRepository heiRepository, IMnchLabRepository mnchLabRepository)
+        public MnchService(IPatientMnchRepository patientMnchRepository, IAncVisitRepository ancVisitRepository, IFacilityRepository facilityRepository, ILiveSyncService syncService, IMnchEnrolmentRepository mnchEnrolmentRepository, IMnchArtRepository mnchArtRepository, IMatVisitRepository matVisitRepository, IPncVisitRepository pncVisitRepository, IMotherBabyPairRepository motherBabyPairRepository, ICwcEnrolmentRepository cwcEnrolmentRepository, ICwcVisitRepository cwcVisitRepository, IHeiRepository heiRepository, IMnchLabRepository mnchLabRepository,IMnchImmunizationRepository mnchImmunizationRepository)
         {
             _patientMnchRepository = patientMnchRepository;
             _ancVisitRepository = ancVisitRepository;
@@ -46,6 +48,7 @@ namespace Dwapi.Mnch.Core.Service
             _cwcVisitRepository = cwcVisitRepository;
             _heiRepository = heiRepository;
             _mnchLabRepository = mnchLabRepository;
+            _mnchImmunizationRepository = mnchImmunizationRepository;
         }
 
         public void Process(IEnumerable<PatientMnch> patients)
@@ -478,6 +481,45 @@ namespace Dwapi.Mnch.Core.Service
             SyncClients(facilityIds);
         }
 
+
+        public void Process(IEnumerable<MnchImmunization> extracts)
+        {
+            Console.WriteLine("mnch Immunizationprocess===============> ");
+            List<Guid> facilityIds=new List<Guid>();
+            if(null==extracts)
+                return;
+            if(!extracts.Any())
+                return;
+            _siteProfiles = _facilityRepository.GetSiteProfiles().ToList();
+            var batch = new List<MnchImmunization>();
+            int count = 0;
+            foreach (var extract in extracts)
+            {
+                count++;
+                try
+                {
+                    extract.FacilityId = GetFacilityId(extract.SiteCode);
+                    extract.UpdateRefId();
+                    batch.Add(extract);
+                    facilityIds.Add(extract.FacilityId);
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e, $"Facility Id missing {extract.SiteCode}");
+                }
+
+
+                if (count == 1000)
+                {
+                    _mnchImmunizationRepository.CreateBulk(batch);
+                    count = 0;
+                    batch = new List<MnchImmunization>();
+                }
+            }
+            if (batch.Any())
+                _mnchImmunizationRepository.CreateBulk(batch);
+            SyncClients(facilityIds);
+        }
 
 
         public Guid GetFacilityId(int siteCode)

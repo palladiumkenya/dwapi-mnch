@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Dwapi.ExtractsManagement.Core.Model.Destination.Mnch;
 using Dwapi.Mnch.SharedKernel.Model;
 using Dwapi.Mnch.SharedKernel.Utils;
 
@@ -28,6 +29,7 @@ namespace Dwapi.Mnch.Core.Domain
         public virtual ICollection<CwcVisit> CwcVisits { get; set; } = new List<CwcVisit>();
         public virtual ICollection<Hei> Heis { get; set; } = new List<Hei>();
         public virtual ICollection<MnchLab> MnchLabs { get; set; } = new List<MnchLab>();
+        public virtual ICollection<MnchImmunization> MnchImmunizations { get; set; } = new List<MnchImmunization>();
 
         public ICollection<Manifest> Manifests { get; set; }=new List<Manifest>();
 
