@@ -4,14 +4,16 @@ using Dwapi.Mnch.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dwapi.Mnch.Infrastructure.Migrations
 {
     [DbContext(typeof(MnchContext))]
-    partial class MnchContextModelSnapshot : ModelSnapshot
+    [Migration("20230317080013_AncVisitsAddedVariables")]
+    partial class AncVisitsAddedVariables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,8 +178,8 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("AntenatalExercises")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BP")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("BP")
+                        .HasColumnType("int");
 
                     b.Property<string>("BreastExam")
                         .HasColumnType("nvarchar(max)");
@@ -730,12 +732,6 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<string>("WeightCategory")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZScore")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ZScoreAbsolute")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

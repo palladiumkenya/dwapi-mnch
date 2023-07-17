@@ -45,6 +45,12 @@ namespace Dwapi.Mnch.Core.Domain
         public string ReferralReasons { get; set; }
         public string FollowUP { get; set; }
         public DateTime? NextAppointment { get; set; }
+        
+        public string RevisitThisYear { get; set; }
+        public string Refferred { get; set; }
+        public decimal? HeightLength { get; set; }
+        public string ZScore { get; set; }
+        public int? ZScoreAbsolute { get; set; }
         public DateTime? Date_Created { get; set; }
         public DateTime? Date_Last_Modified { get; set; }
 

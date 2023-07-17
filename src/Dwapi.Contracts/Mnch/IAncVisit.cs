@@ -18,7 +18,7 @@ namespace Dwapi.Mnch.Contracts.Mnch
         int? RespiratoryRate { get; set; }
         decimal? OxygenSaturation { get; set; }
         int? MUAC { get; set; }
-        int? BP { get; set; }
+        string BP { get; set; }
         string BreastExam { get; set; }
         string AntenatalExercises { get; set; }
         string FGM { get; set; }
@@ -66,6 +66,14 @@ namespace Dwapi.Mnch.Contracts.Mnch
         string ReferralReasons { get; set; }
         DateTime? NextAppointmentANC { get; set; }
         string ClinicalNotes { get; set; }
+        
+        public string HepatitisBScreening { get; set; }
+        public string TreatedHepatitisB { get; set; }
+        public string PresumptiveTreatmentGiven { get; set; }
+        public string PresumptiveTreatmentDose { get; set; }
+        public string MiminumPackageOfCareReceived { get; set; }
+        public string MiminumPackageOfCareServices { get; set; }
+        
         DateTime? Date_Created { get; set; }
         DateTime? Date_Last_Modified { get; set; }
     }

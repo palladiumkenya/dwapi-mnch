@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Dwapi.ExtractsManagement.Core.Model.Destination.Mnch;
 
 namespace Dwapi.Mnch.Core.Domain.Dto
 {
@@ -15,5 +16,7 @@ namespace Dwapi.Mnch.Core.Domain.Dto
         public List<CwcEnrolment> CwcEnrolmentExtracts { get; set; } = new List<CwcEnrolment>();
         public List<AncVisit> AncVisitExtracts { get; set; } = new List<AncVisit>();
         public List<MnchLab> MnchLabExtracts { get; set; } = new List<MnchLab>();
+        public List<MnchImmunization> MnchImmunizationExtracts { get; set; } = new List<MnchImmunization>();
+
     }
 }

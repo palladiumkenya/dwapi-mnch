@@ -73,6 +73,7 @@ namespace Dwapi.Mnch
             services.AddScoped<ICwcVisitRepository, CwcVisitRepository>();
             services.AddScoped<IHeiRepository, HeiRepository>();
             services.AddScoped<IMnchLabRepository, MnchLabRepository>();
+            services.AddScoped<IMnchImmunizationRepository, MnchImmunizationRepository>();
 
 
             services.AddScoped<IManifestService, ManifestService>();
