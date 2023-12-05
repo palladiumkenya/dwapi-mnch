@@ -23,5 +23,7 @@ namespace Dwapi.Mnch.Contracts.Mnch
         string HEIExitCritearia { get; set; }
         DateTime? Date_Created { get; set; }
         DateTime? Date_Last_Modified { get; set; }
+        string RecordUUID { get; set; }
+        bool? Voided { get; set; }
     }
 }
