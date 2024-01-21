@@ -121,6 +121,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<DateTime?>("ROTA2")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -147,6 +150,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<DateTime?>("VitaminAAt6Months")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("YellowFever")
                         .HasColumnType("datetime2");
@@ -335,6 +341,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("ReceivedMosquitoNet")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -403,6 +412,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<int?>("VisitID")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("WHOStaging")
                         .HasColumnType("int");
@@ -541,6 +553,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("QueueId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -579,6 +594,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<int?>("VisitID")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -677,6 +695,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("ReceivedMosquitoNet")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -724,6 +745,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<string>("VitaminA")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.Property<decimal?>("Weight")
                         .HasColumnType("decimal(18,2)");
@@ -897,6 +921,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("QueueId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -908,6 +935,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<DateTime?>("StatusDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1184,6 +1214,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("QueueId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1231,6 +1264,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<string>("VitaminKGiven")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1299,6 +1335,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("QueueId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1325,6 +1364,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<DateTime?>("StatusDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1411,6 +1453,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("QueueId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1428,6 +1473,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<DateTime?>("StatusDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1484,6 +1532,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("QueueId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1510,6 +1561,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<int?>("VisitID")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1569,6 +1623,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("QueueId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1580,6 +1637,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<DateTime?>("StatusDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1669,6 +1729,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("QueueId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1680,6 +1743,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<DateTime?>("StatusDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1877,6 +1943,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
                     b.Property<string>("ReceivedFP")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordUUID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("RefId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1921,6 +1990,9 @@ namespace Dwapi.Mnch.Infrastructure.Migrations
 
                     b.Property<string>("VisitTimingMother")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Voided")
+                        .HasColumnType("bit");
 
                     b.Property<decimal?>("Weight")
                         .HasColumnType("decimal(18,2)");

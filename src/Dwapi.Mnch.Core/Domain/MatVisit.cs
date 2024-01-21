@@ -76,7 +76,9 @@ namespace Dwapi.Mnch.Core.Domain
         
         public DateTime? Date_Created { get; set; }
         public DateTime? Date_Last_Modified { get; set; }
-
+        public string RecordUUID { get; set; }
+        public bool? Voided { get; set; }
+        
         public override void UpdateRefId()
         {
             RefId = Id;

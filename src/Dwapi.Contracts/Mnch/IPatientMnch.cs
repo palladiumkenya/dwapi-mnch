@@ -21,6 +21,7 @@ namespace Dwapi.Mnch.Contracts.Mnch
         DateTime? Date_Created { get; set; }
         DateTime? Date_Last_Modified { get; set; }
         public string NUPI { get; set; }
-      
+        string RecordUUID { get; set; }
+        bool? Voided { get; set; }
     }
 }
