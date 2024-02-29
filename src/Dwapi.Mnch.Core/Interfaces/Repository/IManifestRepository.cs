@@ -16,5 +16,7 @@ namespace Dwapi.Mnch.Core.Interfaces.Repository
         Task EndSession(Guid session);
         IEnumerable<HandshakeDto> GetSessionHandshakes(Guid session);
         void updateCount(Guid id,int clientCount);
+        string GetDWAPIversionSending(int siteCode);
+
     }
 }

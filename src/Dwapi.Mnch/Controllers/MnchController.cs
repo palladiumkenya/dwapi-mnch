@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Dwapi.Mnch.Core.Command;
 using Dwapi.Mnch.Core.Domain.Dto;
@@ -7,6 +8,8 @@ using Dwapi.Mnch.Core.Interfaces.Service;
 using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace Dwapi.Mnch.Controllers
@@ -51,6 +54,25 @@ namespace Dwapi.Mnch.Controllers
         {
             if (null == manifestDto)
                 return BadRequest();
+            
+            // check if version allowed to send
+            var version = manifestDto.Manifest.Cargoes.Select(x =>  x).Where(m => m.Items.Contains("HivTestingService")).FirstOrDefault().Items;
+            // var DwapiVersionSending = _manifestRepository.GetDWAPIversionSending(manifest.Manifest.SiteCode);
+            var DwapiVersionSending = Int32.Parse((JObject.Parse(version)["Version"].ToString()).Replace(".", string.Empty));
+            
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var DwapiVersionCuttoff = Int32.Parse(config["DwapiVersionCuttoff"]);;
+            
+            var currentLatestVersion = config["currentLatestVersion"];;;
+
+            if (DwapiVersionSending < DwapiVersionCuttoff)
+            {
+                return StatusCode(500, $" ====> You're using DWAPI Version [{DwapiVersionSending}]. Older Versions of DWAPI are " +
+                                       $"not allowed to send to NDWH. UPGRADE to the latest version {currentLatestVersion} and RELOAD and SEND");
+            }
+
             try
             {
                 var manifest = new SaveManifest(manifestDto.Manifest);
