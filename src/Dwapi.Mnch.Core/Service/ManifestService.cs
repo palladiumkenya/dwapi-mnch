@@ -37,7 +37,7 @@ namespace Dwapi.Mnch.Core.Service
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Clear MANIFEST ERROR ", e);
+                    Log.Error(e, "Clear MANIFEST ERROR ");
                 }
 
                 try
@@ -47,7 +47,7 @@ namespace Dwapi.Mnch.Core.Service
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Clear COMMUNITY MANIFEST ERROR ", e);
+                    Log.Error(e,"Clear Facility Data Error ");
                 }
 
                 foreach (var manifest in manifests)
