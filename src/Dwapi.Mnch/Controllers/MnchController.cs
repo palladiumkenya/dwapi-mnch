@@ -56,17 +56,16 @@ namespace Dwapi.Mnch.Controllers
                 return BadRequest();
             
             // check if version allowed to send
-            var version = manifestDto.Manifest.Cargoes.Select(x =>  x).Where(m => m.Items.Contains("HivTestingService")).FirstOrDefault().Items;
-            // var DwapiVersionSending = _manifestRepository.GetDWAPIversionSending(manifest.Manifest.SiteCode);
+            var version = manifestDto.Manifest.Cargoes.Select(x =>  x).Where(m => m.Items.Contains("MnchService")).FirstOrDefault().Items;
             var DwapiVersionSending = Int32.Parse((JObject.Parse(version)["Version"].ToString()).Replace(".", string.Empty));
             
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var DwapiVersionCuttoff = Int32.Parse(config["DwapiVersionCuttoff"]);;
+            var DwapiVersionCuttoff = Int32.Parse(config["DwapiVersionCuttoff"]);
             
-            var currentLatestVersion = config["currentLatestVersion"];;;
-
+            var currentLatestVersion = config["currentLatestVersion"];
+            
             if (DwapiVersionSending < DwapiVersionCuttoff)
             {
                 return StatusCode(500, $" ====> You're using DWAPI Version [{DwapiVersionSending}]. Older Versions of DWAPI are " +
