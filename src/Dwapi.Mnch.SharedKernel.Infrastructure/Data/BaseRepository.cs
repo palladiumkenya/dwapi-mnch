@@ -85,6 +85,20 @@ namespace Dwapi.Mnch.SharedKernel.Infrastructure.Data
             }
             return 1;
         }
+        
+        public int ExecSql(string query, int timeoutSeconds = 600) // Default timeout 10 minutes
+        {
+            using (var cn = new SqlConnection(ConnectionString))
+            {
+                cn.Open();
+                using (var command = new SqlCommand(query, cn))
+                {
+                    command.CommandTimeout = timeoutSeconds; // Set the custom timeout
+                    command.ExecuteNonQuery(); // Execute the SQL command
+                }
+            }
+            return 1;
+        }
 
         public virtual async Task<int> ExecSqlAsync(string sql)
         {

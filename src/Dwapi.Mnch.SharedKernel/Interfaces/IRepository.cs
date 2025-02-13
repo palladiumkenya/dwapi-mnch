@@ -22,6 +22,8 @@ namespace Dwapi.Mnch.SharedKernel.Interfaces
         Task<int> SaveAsync();
 
         int ExecSql(string sql);
+        int ExecSql(string sql, int timeoutSeconds);
+
         Task<int> ExecSqlAsync(string sql);
         IDbConnection GetDbConnection();
     }

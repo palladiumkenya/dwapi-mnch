@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Dwapi.Mnch.Core.Domain;
 using Dwapi.Mnch.Core.Domain.Dto;
 using Dwapi.Mnch.Core.Interfaces.Repository;
 using Dwapi.Mnch.Core.Interfaces.Service;
 using Dwapi.Mnch.SharedKernel.Enums;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace Dwapi.Mnch.Core.Service
@@ -37,7 +39,7 @@ namespace Dwapi.Mnch.Core.Service
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, "Clear MANIFEST ERROR ");
+                    Log.Error( "Clear MANIFEST ERROR "+ e);
                 }
 
                 try

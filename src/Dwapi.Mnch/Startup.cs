@@ -193,6 +193,8 @@ namespace Dwapi.Mnch
             {
                 context.Database.Migrate();
                 context.EnsureSeeded();
+                context.Database.SetCommandTimeout(300);
+
                 Log.Debug($"initializing Database context: {contextName} [OK]");
             }
             catch (Exception e)

@@ -11,6 +11,7 @@ using Dwapi.Mnch.SharedKernel.Enums;
 using Dwapi.Mnch.SharedKernel.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace Dwapi.Mnch.Infrastructure.Data.Repository
 {
@@ -23,139 +24,206 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
         public void ClearFacility(IEnumerable<Manifest> manifests)
         {
             var ids = string.Join(',', manifests.Select(x =>$"'{x.FacilityId}'"));
+            var sitecode = manifests.Select(x =>$"'{x.SiteCode}'").FirstOrDefault();
+
             ExecSql(
                 $@"
-                    DECLARE @BatchSize INT = 1000; 
+                    DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchPatients)} WHERE {nameof(PatientMnch.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchPatients)} WHERE {nameof(PatientMnch.SiteCode)} = {sitecode};
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                ");
+                ", 3600);
             
+            try{
             ExecSql(
                 $@"        
-                DECLARE @BatchSize INT = 1000; 
+                DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchEnrolments)} WHERE {nameof(MnchEnrolment.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchEnrolments)} WHERE {nameof(MnchEnrolment.SiteCode)} = {sitecode};
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                ");
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.MnchEnrolments)}"+ e);
+            }
             
+            try{
             ExecSql(
                 $@" 
-                DECLARE @BatchSize INT = 1000; 
+                DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchArts)} WHERE {nameof(MnchArt.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchArts)} WHERE {nameof(MnchArt.SiteCode)} = {sitecode};
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                ");
-            
-            ExecSql(
-                $@" 
-                DECLARE @BatchSize INT = 1000; 
-                    DECLARE @RowsAffected INT = 1;
-                    WHILE @RowsAffected > 0
-                    BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.AncVisits)} WHERE {nameof(AncVisit.FacilityId)} in ({ids});
-                        SET @RowsAffected = @@ROWCOUNT;
-                    END
-                ");
-            
-            ExecSql(
-                $@" 
-                DECLARE @BatchSize INT = 1000; 
-                    DECLARE @RowsAffected INT = 1;
-                    WHILE @RowsAffected > 0
-                    BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.PncVisits)} WHERE {nameof(PncVisit.FacilityId)} in ({ids}) ;
-                        SET @RowsAffected = @@ROWCOUNT;
-                    END
-                ");
-            
-            ExecSql(
-                $@" 
-                DECLARE @BatchSize INT = 1000; 
-                    DECLARE @RowsAffected INT = 1;
-                    WHILE @RowsAffected > 0
-                    BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.MatVisits)} WHERE {nameof(MatVisit.FacilityId)} in ({ids});
-                        SET @RowsAffected = @@ROWCOUNT;
-                    END
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.MnchArts)}"+ e);
 
-                ");
+            }
             
+            try{
             ExecSql(
                 $@" 
-                DECLARE @BatchSize INT = 1000; 
+                DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.MotherBabyPairs)} WHERE {nameof(MotherBabyPair.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.AncVisits)} WHERE {nameof(AncVisit.SiteCode)} = {sitecode};
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                ");
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.AncVisits)}"+ e);
+            }
             
+            try{
             ExecSql(
                 $@" 
-                DECLARE @BatchSize INT = 1000; 
+                DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.CwcEnrolments)} WHERE {nameof(CwcEnrolment.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.PncVisits)} WHERE {nameof(PncVisit.SiteCode)} = {sitecode} ;
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                ");
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.PncVisits)}"+ e);
+            }
             
+            try{
             ExecSql(
                 $@" 
-                DECLARE @BatchSize INT = 1000; 
+                DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.MatVisits)} WHERE {nameof(MatVisit.SiteCode)} = {sitecode};
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                ");
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.MatVisits)}"+ e);
+            }
             
+            try{
             ExecSql(
                 $@" 
-                DECLARE @BatchSize INT = 1000; 
+                DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.Heis)} WHERE {nameof(Hei.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.MotherBabyPairs)} WHERE {nameof(MotherBabyPair.SiteCode)} = {sitecode};
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                ");
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.MotherBabyPairs)}"+ e);
+            }
             
+            try{
             ExecSql(
                 $@" 
-                DECLARE @BatchSize INT = 1000; 
+                DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.CwcEnrolments)} WHERE {nameof(CwcEnrolment.SiteCode)} = {sitecode};
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                ");
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.CwcEnrolments)}"+ e);
+            }
             
+            try{
             ExecSql(
                 $@" 
-                DECLARE @BatchSize INT = 1000; 
+                DECLARE @BatchSize INT = 50000; 
                     DECLARE @RowsAffected INT = 1;
                     WHILE @RowsAffected > 0
                     BEGIN
-                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchImmunizations)} WHERE {nameof(MnchImmunization.FacilityId)} in ({ids});
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.SiteCode)} = {sitecode};
                         SET @RowsAffected = @@ROWCOUNT;
                     END
-                "
-            );
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.CwcVisits)}"+ e);
+            }
+            
+            try{
+            ExecSql(
+                $@" 
+                DECLARE @BatchSize INT = 50000; 
+                    DECLARE @RowsAffected INT = 1;
+                    WHILE @RowsAffected > 0
+                    BEGIN
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.Heis)} WHERE {nameof(Hei.SiteCode)} = {sitecode};
+                        SET @RowsAffected = @@ROWCOUNT;
+                    END
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.Heis)}"+ e);
+            }
+            
+            try{
+            ExecSql(
+                $@" 
+                DECLARE @BatchSize INT = 50000; 
+                    DECLARE @RowsAffected INT = 1;
+                    WHILE @RowsAffected > 0
+                    BEGIN
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.SiteCode)} = {sitecode};
+                        SET @RowsAffected = @@ROWCOUNT;
+                    END
+                ", 3600);
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.MnchLabs)}"+ e);
+            }
+            
+            try{
+            ExecSql(
+                $@" 
+                DECLARE @BatchSize INT = 50000; 
+                    DECLARE @RowsAffected INT = 1;
+                    WHILE @RowsAffected > 0
+                    BEGIN
+                        DELETE TOP (@BatchSize) {nameof(MnchContext.MnchImmunizations)} WHERE {nameof(MnchImmunization.SiteCode)} = {sitecode};
+                        SET @RowsAffected = @@ROWCOUNT;
+                    END
+                ", 3600); 
+            }
+            catch (Exception e)
+            {
+                Log.Error( $"Clear ERROR {nameof(MnchContext.MnchImmunizations)}"+ e);
+            }
 
 
 
@@ -163,51 +231,55 @@ namespace Dwapi.Mnch.Infrastructure.Data.Repository
 
 //               ExecSql(
 //                   $@"
-//                       DELETE FROM {nameof(MnchContext.MnchPatients)} WHERE {nameof(PatientMnch.FacilityId)} in ({ids}) AND {nameof(PatientMnch.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.MnchEnrolments)} WHERE {nameof(MnchEnrolment.FacilityId)} in ({ids}) AND {nameof(MnchEnrolment.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.MnchArts)} WHERE {nameof(MnchArt.FacilityId)} in ({ids}) AND {nameof(MnchArt.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.AncVisits)} WHERE {nameof(AncVisit.FacilityId)} in ({ids}) AND {nameof(AncVisit.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.MatVisits)} WHERE {nameof(MatVisit.FacilityId)} in ({ids}) AND {nameof(MatVisit.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.PncVisits)} WHERE {nameof(PncVisit.FacilityId)} in ({ids}) AND {nameof(PncVisit.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.MotherBabyPairs)} WHERE {nameof(MotherBabyPair.FacilityId)} in ({ids}) AND {nameof(MotherBabyPair.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.CwcEnrolments)} WHERE {nameof(CwcEnrolment.FacilityId)} in ({ids}) AND {nameof(CwcEnrolment.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.FacilityId)} in ({ids}) AND {nameof(CwcVisit.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.Heis)} WHERE {nameof(Hei.FacilityId)} in ({ids}) AND {nameof(Hei.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.FacilityId)} in ({ids}) AND {nameof(MnchLab.Project)} <> 'IRDO';
-//                       DELETE FROM {nameof(MnchContext.MnchImmunizations)} WHERE {nameof(MnchImmunization.FacilityId)} in ({ids}) AND {nameof(MnchImmunization.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.MnchPatients)} WHERE {nameof(PatientMnch.SiteCode)} = {sitecode} AND {nameof(PatientMnch.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.MnchEnrolments)} WHERE {nameof(MnchEnrolment.SiteCode)} = {sitecode} AND {nameof(MnchEnrolment.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.MnchArts)} WHERE {nameof(MnchArt.SiteCode)} = {sitecode} AND {nameof(MnchArt.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.AncVisits)} WHERE {nameof(AncVisit.SiteCode)} = {sitecode} AND {nameof(AncVisit.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.MatVisits)} WHERE {nameof(MatVisit.SiteCode)} = {sitecode} AND {nameof(MatVisit.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.PncVisits)} WHERE {nameof(PncVisit.SiteCode)} = {sitecode} AND {nameof(PncVisit.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.MotherBabyPairs)} WHERE {nameof(MotherBabyPair.SiteCode)} = {sitecode} AND {nameof(MotherBabyPair.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.CwcEnrolments)} WHERE {nameof(CwcEnrolment.SiteCode)} = {sitecode} AND {nameof(CwcEnrolment.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.SiteCode)} = {sitecode} AND {nameof(CwcVisit.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.Heis)} WHERE {nameof(Hei.SiteCode)} = {sitecode} AND {nameof(Hei.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.SiteCode)} = {sitecode} AND {nameof(MnchLab.Project)} <> 'IRDO';
+//                       DELETE FROM {nameof(MnchContext.MnchImmunizations)} WHERE {nameof(MnchImmunization.SiteCode)} = {sitecode} AND {nameof(MnchImmunization.Project)} <> 'IRDO';
 //
 //                    "
 //                   );
 
             var mids = string.Join(',', manifests.Select(x => $"'{x.Id}'"));
+            
             ExecSql(
                 $@"
-                    UPDATE
-                        {nameof(MnchContext.Manifests)}
-                    SET
-                        {nameof(Manifest.Status)}={(int)ManifestStatus.Processed},
-                        {nameof(Manifest.StatusDate)}=GETDATE()
-                    WHERE
-                        {nameof(Manifest.Id)} in ({mids})");
+                UPDATE
+                    {nameof(MnchContext.Manifests)}
+                SET
+                    {nameof(Manifest.Status)}={(int)ManifestStatus.Processed},
+                    {nameof(Manifest.StatusDate)}=GETDATE()
+                WHERE
+                    {nameof(Manifest.Id)} in ({mids})");
+            
         }
 
         public void ClearFacility(IEnumerable<Manifest> manifests, string project)
         {
+            var sitecode = string.Join(',', manifests.Select(x =>$"'{x.SiteCode}'"));
+
             var ids = string.Join(',', manifests.Select(x =>$"'{x.FacilityId}'"));
             ExecSql(
                 $@"
-                    DELETE FROM {nameof(MnchContext.MnchPatients)} WHERE {nameof(PatientMnch.FacilityId)} in ({ids}) AND {nameof(PatientMnch.Project)}='{project}';                   
-                    DELETE FROM {nameof(MnchContext.MnchEnrolments)} WHERE {nameof(MnchEnrolment.FacilityId)} in ({ids}) AND {nameof(MnchEnrolment.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.MnchArts)} WHERE {nameof(MnchArt.FacilityId)} in ({ids}) AND {nameof(MnchArt.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.AncVisits)} WHERE {nameof(AncVisit.FacilityId)} in ({ids}) AND {nameof(AncVisit.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.MatVisits)} WHERE {nameof(MatVisit.FacilityId)} in ({ids}) AND {nameof(MatVisit.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.PncVisits)} WHERE {nameof(PncVisit.FacilityId)} in ({ids}) AND {nameof(PncVisit.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.MotherBabyPairs)} WHERE {nameof(MotherBabyPair.FacilityId)} in ({ids}) AND {nameof(MotherBabyPair.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.CwcEnrolments)} WHERE {nameof(CwcEnrolment.FacilityId)} in ({ids}) AND {nameof(CwcEnrolment.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.FacilityId)} in ({ids}) AND {nameof(CwcVisit.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.Heis)} WHERE {nameof(Hei.FacilityId)} in ({ids}) AND {nameof(Hei.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.FacilityId)} in ({ids}) AND {nameof(MnchLab.Project)}='{project}';
-                    DELETE FROM {nameof(MnchContext.MnchImmunizations)} WHERE {nameof(MnchImmunization.FacilityId)} in ({ids}) AND {nameof(MnchImmunization.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MnchPatients)} WHERE {nameof(PatientMnch.SiteCode)} = {sitecode} AND {nameof(PatientMnch.Project)}='{project}';                   
+                    DELETE FROM {nameof(MnchContext.MnchEnrolments)} WHERE {nameof(MnchEnrolment.SiteCode)} = {sitecode} AND {nameof(MnchEnrolment.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MnchArts)} WHERE {nameof(MnchArt.SiteCode)} = {sitecode} AND {nameof(MnchArt.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.AncVisits)} WHERE {nameof(AncVisit.SiteCode)} = {sitecode} AND {nameof(AncVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MatVisits)} WHERE {nameof(MatVisit.SiteCode)} = {sitecode} AND {nameof(MatVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.PncVisits)} WHERE {nameof(PncVisit.SiteCode)} = {sitecode} AND {nameof(PncVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MotherBabyPairs)} WHERE {nameof(MotherBabyPair.SiteCode)} = {sitecode} AND {nameof(MotherBabyPair.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.CwcEnrolments)} WHERE {nameof(CwcEnrolment.SiteCode)} = {sitecode} AND {nameof(CwcEnrolment.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.CwcVisits)} WHERE {nameof(CwcVisit.SiteCode)} = {sitecode} AND {nameof(CwcVisit.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.Heis)} WHERE {nameof(Hei.SiteCode)} = {sitecode} AND {nameof(Hei.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MnchLabs)} WHERE {nameof(MnchLab.SiteCode)} = {sitecode} AND {nameof(MnchLab.Project)}='{project}';
+                    DELETE FROM {nameof(MnchContext.MnchImmunizations)} WHERE {nameof(MnchImmunization.SiteCode)} = {sitecode} AND {nameof(MnchImmunization.Project)}='{project}';
 
                  "
             );
